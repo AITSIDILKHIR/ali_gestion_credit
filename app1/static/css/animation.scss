@@ -1,0 +1,29 @@
+
+  h4 {
+    color: hsl(0, 0%, 28%);
+    font-size: 16px;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 7px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  
+  h4 {
+    background: linear-gradient(to right, hsl(0, 90%, 52%) 0,  hsl(130, 88%, 44%) 20%,  hsl(0, 0%, 97%) 20%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 5s infinite linear;
+  }
+  
+  @keyframes shine {
+    0% {
+      background-position: 0;
+    }
+    60% {
+      background-position: 600px;
+    }
+    100% {
+      background-position: 600px;
+    }
+  }

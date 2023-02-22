@@ -1,0 +1,58 @@
+{% extends 'admin_base.html' %}
+{% block main  %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">tous les clients</h5>
+        <div class="container-fluid">
+
+            <table class="table table-bordered table-sm" id="example">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>image</th>
+                    <th>nom</th>
+                    <th>prenom</th>
+                    <th>cin</th>
+                    <th>adresse</th>
+                    <th>contact</th>
+                    
+                    <th>credit</th>
+                    
+                    
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in clients %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><img src="{{i.image.url}}" style="width:100px"/></td>
+                    <td>{{i.nom}}</td>
+                    <td>{{i.prenom}}</td>
+                    <td>{{i.cin}}</td>
+                    <td>{{i.adresse}}</td>
+                    <td>{{i.contact}}</td>
+                    <td>{{i.credit}}</td>
+                    
+                   
+                   
+                    
+                    
+                    
+                   
+                    
+                    <td>
+                        <a href="/edit-client/{{i.id}}/" class="text-success">Edit</a>
+                        <a href="/delit-client/{{i.id}}/" class="text-danger"
+                           onclick="return confirm('Are You Sure?')">Delete</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

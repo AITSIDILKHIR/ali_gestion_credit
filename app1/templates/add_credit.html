@@ -1,0 +1,38 @@
+{% extends 'admin_base.html' %}
+{% block main %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Ajouter Credit</h5>
+        <div class="container-fluid">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>client</label>
+                            <select name="client" class="form-control" required>
+                                <option value="">choisir un client</option>
+                                {% for i in client %}
+                                <option value="{{i.id}}">{{i.nom}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>montant credit</label>
+                            <input type="text" name="montant" class="form-control" placeholder="montant de credit">
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <input type="submit" value="Ajouter" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

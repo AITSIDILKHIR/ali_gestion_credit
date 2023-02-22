@@ -1,0 +1,38 @@
+{% extends 'admin_base.html' %}
+{% block main  %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">toutes les categories</h5>
+        <div class="container-fluid">
+
+            <table class="table table-bordered table-sm" id="example">
+                <thead>
+                <tr>
+                    <th>numero</th>
+                    <th>nom de cathegorie</th>
+                    <th>date de creation</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in category %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.created}}</td>
+                    <td>
+                        <a href="/edit-category/{{i.id}}/" class="text-success">modofier</a>
+                        <a href="/delete-category/{{i.id}}/" class="text-danger"
+                           onclick="return confirm('Are You Sure?')">Supprimer</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

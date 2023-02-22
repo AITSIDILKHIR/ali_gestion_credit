@@ -1,0 +1,60 @@
+{% extends 'admin_base.html' %}
+{% block main %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Ajout client</h5>
+        <div class="container-fluid">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>nom de client</label>
+                            <input type="text" name="nom" class="form-control" placeholder="nom client">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>prenom client</label>
+                            <input type="text" name="prenom" class="form-control" placeholder="prenom client">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>adresse</label>
+                            <input type="text" name="adresse" class="form-control" placeholder="adresse de client">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>contact</label>
+                            <input type="text" name="contact" class="form-control" placeholder="numero de tel">
+                        </div>
+                    </div>
+                    
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>photo de client</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>cin</label>
+                            <input type="text" name="cin" class="form-control" placeholder="cin client">
+                        </div>
+                    </div>
+                </div>
+                <input type="Submit" value="Enregistrer" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

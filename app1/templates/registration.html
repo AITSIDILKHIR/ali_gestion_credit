@@ -1,0 +1,99 @@
+{% load static %}
+<html>
+<head>
+    <script>
+    function checkpass()
+    {
+        if(document.signup.pwd.value!=document.signup.cpwd.value)
+        {
+            alert('Password and Repeat Password field does not match');
+            document.signup.cpwd.focus();
+            return false;
+        }
+        return true;
+    }
+
+    </script>
+
+</head>
+<body>
+{% include 'navigation.html' %}
+<hr class="mt-0">
+
+<div class="card shadow m-5" id="signupform">
+    <div class="card-body">
+
+        <div class="container-fluid">
+            <h5 class="p-2" style="border-bottom: 2px solid orange;color:green">Creation de compte utilisateur</h5>
+            <form method="POST" name="signup" onsubmit="return checkpass();" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>prénom</label>
+                            <input type="text" name="fname" placeholder="Entrer votre prénom" class="form-control"
+                                   pattern="[A-Za-z]+">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>nom de famille</label>
+                            <input type="text" name="lname" placeholder="Entrer votre nom de famille" class="form-control"
+                                   pattern="[A-Za-z]+">
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" placeholder="Votre Email" required class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>nnuméro de tel</label>
+                            <input type="text" name="mobile" placeholder="Numero de tel" required
+                                   class="form-control">
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Mot de pass</label>
+                            <input type="password" name="password" placeholder="Entrer un mot de passe" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>Confirmation de mot de passe</label>
+                            <input type="password" name="cpwd" placeholder="Confirmer le mot de passe" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>telecharger Votre Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea name="address" class="form-control" placeholder="l'adresse complet"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <input type="submit" value="S'enregistrer" class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

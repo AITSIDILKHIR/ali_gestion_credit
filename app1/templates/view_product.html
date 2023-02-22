@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+{% block main  %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">tous les produit</h5>
+        <div class="container-fluid">
+
+            <table class="table table-bordered table-sm" id="example">
+                <thead>
+                <tr>
+                    <th>Numero produit.</th>
+                    <th>Image</th>
+                    <th>Nom de produit</th>
+                    <th>la categorie</th>
+                    <th>prix</th>
+                    <th>remise</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in product %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td><img src="{{i.image.url}}" style="width:100px"/></td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.category.name}}</td>
+                    <td>{{i.price}}</td>
+                    <td>{{i.discount}}</td>
+                    <td>
+                        <a href="/edit-product/{{i.id}}/" class="text-success">Mettre à jour</a>
+                        <a href="/delete-product/{{i.id}}/" class="text-danger"
+                           onclick="return confirm('vous etes sure que vous voulez supprimer')">Supprimer</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

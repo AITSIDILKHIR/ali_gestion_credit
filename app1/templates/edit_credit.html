@@ -1,0 +1,49 @@
+{% extends 'admin_base.html' %}
+{% block main %}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">Mettre à jour credit</h5>
+        <div class="container-fluid">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="col-sm-1">
+                    <img src="{{credits.client.image.url}}" style="width:100%;height:80px">
+                </div>
+                {% csrf_token %}
+                <div class="form-row">
+                    
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>{{credits.client.nom}} {{credits.client.prenom}}</label>
+                            <div class="form-group">
+                                <label>montant de credit</label>
+                                <input type="text" name="montant" class="form-control" value="{{credits.montant}}" placeholder="montant de credit">
+                            </div>
+                            
+                            <div class="form-group">
+                                    <label>montant à payer</label>
+                                    <input type="text" name="payer" class="form-control" value="" placeholder="montant à régler">
+                             </div>
+                                
+                          
+                            
+                        </div>
+                    </div>
+                    
+                    
+
+                    
+
+                    
+
+                    
+                   
+
+                </div>
+                <input type="submit" value="Modifier " class="m-2 px-3 btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

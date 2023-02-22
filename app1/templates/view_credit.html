@@ -1,0 +1,44 @@
+{% extends 'admin_base.html' %}
+{% block main  %}
+
+<div class="card shadow">
+    <div class="card-body">
+
+        <h5 class="p-2" style="border-bottom: 2px solid orange;">touts les credits</h5>
+        <div class="container-fluid">
+
+            <table class="table table-bordered table-sm" id="example">
+                <thead>
+                <tr>
+                    <th>S.No.</th>
+                    
+                    <th>nom du client</th>
+                    <th>montant</th>
+                    <th>durée de credit</th>
+                    <th>etat de credit</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in credit %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    
+                    <td>{{i.client.nom}}</td>
+                    <td>{{i.montant}}</td>
+                    <td>{{i.durée}}</td>
+                    <td>reglé</td>
+                    <td>
+                        <a href="/edit-credit/{{i.id}}/" class="text-success">Edit</a>
+                        <a href="/delete-credits/{{i.id}}/" class="text-danger"
+                           onclick="return confirm('voullez vous vraiment supprimez ce credits?')">Delete</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
