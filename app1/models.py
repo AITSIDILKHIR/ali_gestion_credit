@@ -58,7 +58,7 @@ class Credits(models.Model):
     
     montant = models.FloatField(max_length=100, null=True, blank=True)
     durée=models.FloatField(max_length=100, null=True, blank=True)
-    
+    etat_credit=models.TextField(default="non reglé")
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 

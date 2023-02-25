@@ -185,7 +185,7 @@ def add_credit(request):
         
         client = request.POST['client']
         montant = request.POST['montant']
-        durée=30
+        durée=0
         clientt = Clients.objects.get(id=client)
         Clients.objects.filter(id=client).update(credit=montant)
         Credits.objects.create(client=clientt,montant=montant, durée=durée)
@@ -195,22 +195,41 @@ def add_credit(request):
 def view_credit(request):
     credit= Credits.objects.all()
     return render(request, 'view_credit.html', locals())
+def duree(date1,date2):
+        delta = date1 - date2
+        return delta.days
 
 def edit_credit(request, pid):
     credits = Credits.objects.get(id=pid)
     clients = Clients.objects.all()
     if request.method == "POST":
         payer = request.POST['payer']
-        montant = request.POST['montant']
-        montant=float(montant)-float(payer)
+       # montant = request.POST['montant']
+        nom = credits.client.nom
+        if  payer=="montant à régler":
+            payer=0
+        
+        montant=float(credits.montant)-float(payer)
+        durée=duree(credits.updated,credits.created)
+        if montant ==float(0):
+
+            Credits.objects.filter(id=pid).update( etat_credit=" credit reglé")
+            Clients.objects.filter(nom=nom).update(credit=montant)
+           
+            Credits.objects.filter(id=pid).update( montant=montant, durée=durée)
+            return redirect(view_credit)
+        elif montant > float(0) :
+             Clients.objects.filter(nom=nom).update(credit=montant)
+             Credits.objects.filter(id=pid).update( montant=montant, durée=durée)
+             messages.success(request, "Credit mets ajour")
+             return redirect(view_credit)
+
+
         #clt = request.POST['category']
-        durée=40
         
         
-        Clients.objects.filter(id=credits.client.nom).update(credit=montant)
-        Credits.objects.filter(id=pid).update( montant=montant, durée=durée)
-        messages.success(request, "Credit mets ajour")
-        return redirect(view_credit)
+   
+       
     return render(request, 'edit_credit.html', locals())
 def delete_credits(request, pid):
     credits = Credits.objects.get(id=pid)
