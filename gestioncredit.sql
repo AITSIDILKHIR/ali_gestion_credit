@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 20 fév. 2023 à 13:28
+-- Généré le : dim. 26 fév. 2023 à 14:04
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -85,16 +85,44 @@ CREATE TABLE IF NOT EXISTS `app1_clients` (
   `created` datetime(6) NOT NULL,
   `credit` double DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `app1_clients`
 --
 
 INSERT INTO `app1_clients` (`id`, `nom`, `prenom`, `adresse`, `contact`, `image`, `cin`, `updated`, `created`, `credit`) VALUES
-(1, 'ali233', 'AIT SIDO ', 'DIYAR TANGER GROUPE 12 IM 7 APP6', '089297249', 'online3_m6vkhKB.jpg', 'V009', '2023-02-20 13:10:42.517766', '2023-02-20 00:56:05.212532', NULL),
-(2, 'yassin', 'ahmadi', 'diyar tanger', '0989898', 'ALIII_ioPe31j.jpg', 'KB0908', '2023-02-20 01:41:36.996593', '2023-02-20 01:41:36.996593', NULL),
-(3, 'monir', 'ahmed', 'diyar tanger', '098739287', 'ALIII_sOnoiTs.jpg', 'kb3232', '2023-02-20 01:47:01.198074', '2023-02-20 01:47:01.198074', 9089);
+(24, 'salma', 'minaji', 'casa', '0691759660', 'logo_wcqmQZc.png', 'VO9900', '2023-02-23 22:48:20.236154', '2023-02-23 22:48:20.236154', 5000),
+(25, 'ali', 'AIT SIDO LKHIR', 'DIYAR TANGER GROUPE 12 IM 7 APP6', '06827382738', 'admin_DcknWSj_MKfXo9D.png', 'V009', '2023-02-24 15:31:03.619127', '2023-02-24 15:31:03.619127', 0),
+(26, 'ali2', 'AIT SIDO LKHIR', 'DIYAR TANGER GROUPE 12 IM 7 APP6', '0635357575', 'ALIII_ioPe31j_BDDaqlB.jpg', 'VA96076', '2023-02-24 15:34:44.600363', '2023-02-24 15:34:44.600363', 0),
+(28, 'mostafi', 'mostafa', '120 RUE TADAWT', '0691759660', 'ALIII_djq1g63_dHzG6wO_EXbeX9D.jpg', 'VA96077', '2023-02-25 22:30:06.059043', '2023-02-25 22:30:06.060045', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `app1_credits`
+--
+
+DROP TABLE IF EXISTS `app1_credits`;
+CREATE TABLE IF NOT EXISTS `app1_credits` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `montant` double DEFAULT NULL,
+  `updated` datetime(6) NOT NULL,
+  `created` datetime(6) NOT NULL,
+  `client_id` bigint DEFAULT NULL,
+  `durée` float DEFAULT NULL,
+  `etat_credit` longtext NOT NULL DEFAULT (_utf8mb3'non reglé'),
+  PRIMARY KEY (`id`),
+  KEY `app1_credits_client_id_9fcea049_fk_app1_clients_id` (`client_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `app1_credits`
+--
+
+INSERT INTO `app1_credits` (`id`, `montant`, `updated`, `created`, `client_id`, `durée`, `etat_credit`) VALUES
+(29, 0, '2023-02-24 22:51:46.943011', '2023-02-24 22:51:46.943011', 26, 0, ' credit reglé'),
+(30, 0, '2023-02-25 22:30:26.442956', '2023-02-25 22:30:26.442956', 28, 0, ' credit reglé');
 
 -- --------------------------------------------------------
 
@@ -115,14 +143,14 @@ CREATE TABLE IF NOT EXISTS `app1_product` (
   `category_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `app1_product_category_id_cc5a3c69_fk_app1_category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `app1_product`
 --
 
 INSERT INTO `app1_product` (`id`, `name`, `image`, `description`, `price`, `discount`, `updated`, `created`, `category_id`) VALUES
-(5, 'nouriture', 'logo_Pw07zBQ.png', '', '120', '', '2023-02-19 23:53:24.057140', '2023-02-19 23:53:24.057140', 8);
+(6, 'nouriture', 'admin_tTrFwt1_HJuCogA.png', 'ff', '120', '100', '2023-02-24 22:49:42.652313', '2023-02-24 22:49:42.652313', 8);
 
 -- --------------------------------------------------------
 
@@ -203,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `auth_permission` (
   `codename` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `auth_permission`
@@ -261,7 +289,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (49, 'Can add clients', 13, 'add_clients'),
 (50, 'Can change clients', 13, 'change_clients'),
 (51, 'Can delete clients', 13, 'delete_clients'),
-(52, 'Can view clients', 13, 'view_clients');
+(52, 'Can view clients', 13, 'view_clients'),
+(53, 'Can add credits', 14, 'add_credits'),
+(54, 'Can change credits', 14, 'change_credits'),
+(55, 'Can delete credits', 14, 'delete_credits'),
+(56, 'Can view credits', 14, 'view_credits');
 
 -- --------------------------------------------------------
 
@@ -291,8 +323,8 @@ CREATE TABLE IF NOT EXISTS `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$260000$bRX7iNu8q8AFTTcLZorlWf$esSQoA1YAhbLKF3Mn/OnD9CGSzZiLHb9FlpZXf+NFlU=', '2023-02-20 09:55:27.343353', 1, 'ALI', '', '', 'ali.aitsidilkhir@gmail.com', 1, 1, '2023-02-15 22:19:37.000000'),
-(2, 'pbkdf2_sha256$260000$JJlcToTEWJuBAewXeSZx7f$yTtaNBsVUi3RabMiHjJHLwbn8C0T49jc/azDKezFHmk=', '2023-02-20 00:15:17.788997', 1, 'LKHIR', '', '', 'ali.midelt@hotmail.fr', 1, 1, '2023-02-16 17:21:00.000000'),
+(1, 'pbkdf2_sha256$260000$bRX7iNu8q8AFTTcLZorlWf$esSQoA1YAhbLKF3Mn/OnD9CGSzZiLHb9FlpZXf+NFlU=', '2023-02-24 22:41:03.616880', 1, 'ALI', '', '', 'ali.aitsidilkhir@gmail.com', 1, 1, '2023-02-15 22:19:37.000000'),
+(2, 'pbkdf2_sha256$260000$JJlcToTEWJuBAewXeSZx7f$yTtaNBsVUi3RabMiHjJHLwbn8C0T49jc/azDKezFHmk=', '2023-02-26 01:11:36.830488', 1, 'LKHIR', '', '', 'ali.midelt@hotmail.fr', 1, 1, '2023-02-16 17:21:00.000000'),
 (3, 'pbkdf2_sha256$260000$DGaq6Kkguq7K3W172Qc2RU$964PRvr+E055k9Vw5PPTrM5s2z1jQ2EqlsssbGV17uM=', NULL, 0, 'alia', '', '', '', 0, 1, '2023-02-17 19:42:23.182079'),
 (4, 'pbkdf2_sha256$260000$FRFQ8yOSYF41b05ALTiIqx$1WBG2L9xu4F4NO/Hd3FsGzdB8kzRtuKFVnGWgW7K/Q8=', NULL, 0, 'ali.aitsidilkhir@gmail.com', 'HAMZAOUI', 'YAHYAOUI', 'ali.aitsidilkhir@gmail.com', 0, 1, '2023-02-18 19:42:54.121229'),
 (6, 'pbkdf2_sha256$260000$dIh2vcD5RU6amuVFmlMMvJ$3+Xoxhs6KSk77SMiKnaYxe70pwpzO+uV3/PEUubtXDY=', NULL, 0, 'ali.ati@gmail.com', 'HAMZAOUI', 'YAHYAOUI', 'ali.ati@gmail.com', 0, 1, '2023-02-18 19:52:05.045563'),
@@ -397,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `django_content_type`
@@ -409,6 +441,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (9, 'app1', 'category'),
 (12, 'app1', 'client'),
 (13, 'app1', 'clients'),
+(14, 'app1', 'credits'),
 (10, 'app1', 'product'),
 (7, 'app1', 'student'),
 (11, 'app1', 'userprofile'),
@@ -431,7 +464,7 @@ CREATE TABLE IF NOT EXISTS `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `django_migrations`
@@ -463,7 +496,10 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (23, 'app1', '0005_userprofile', '2023-02-18 19:13:20.799741'),
 (24, 'app1', '0006_client', '2023-02-18 23:30:44.590007'),
 (25, 'app1', '0007_auto_20230220_0125', '2023-02-20 00:25:40.992612'),
-(26, 'app1', '0008_clients_credit', '2023-02-20 01:37:07.281578');
+(26, 'app1', '0008_clients_credit', '2023-02-20 01:37:07.281578'),
+(27, 'app1', '0009_credits', '2023-02-20 21:51:36.101493'),
+(28, 'app1', '0010_credits_durée', '2023-02-20 22:47:19.984824'),
+(29, 'app1', '0011_credits_etat_credit', '2023-02-23 19:54:03.081805');
 
 -- --------------------------------------------------------
 
@@ -485,14 +521,20 @@ CREATE TABLE IF NOT EXISTS `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
-('2mc39nd8eabfzdmr34ze21olu4u4y3iu', '.eJxVjDsOwjAQBe_iGlmJv1lKes5g7dobHEC2FCcV4u5gKQW0b2beSwTctxz2xmtYkjiLUZx-N8L44NJBumO5VRlr2daFZFfkQZu81sTPy-H-HWRs-VvDZDR5g6TU7JQlMxBo0i4mzzDF5AgZ2UdtMAHi0M1ZK1CjtUgA4v0B7jk4Wg:1pTutl:_tFX0FnNeZCuUME93Vfwq0GyEKfjBP-eNktxb9BWhW8', '2023-03-06 01:23:21.683830'),
-('gq5b4wqw6rfshdofxtk7t7vey352ypgf', '.eJxVjDsOwjAQBe_iGlmJv1lKes5g7dobHEC2FCcV4u5gKQW0b2beSwTctxz2xmtYkjiLUZx-N8L44NJBumO5VRlr2daFZFfkQZu81sTPy-H-HWRs-VvDZDR5g6TU7JQlMxBo0i4mzzDF5AgZ2UdtMAHi0M1ZK1CjtUgA4v0B7jk4Wg:1pU2tL:MIovM4liBZ29kEkQw_YSFvZBSiu8RvS-W7c7Xpkbzbs', '2023-03-06 09:55:27.393589'),
+('2mc39nd8eabfzdmr34ze21olu4u4y3iu', '.eJxVjDsOwjAQBe_iGlmJv1lKes5g7dobHEC2FCcV4u5gKQW0b2beSwTctxz2xmtYkjiLUZx-N8L44NJBumO5VRlr2daFZFfkQZu81sTPy-H-HWRs-VvDZDR5g6TU7JQlMxBo0i4mzzDF5AgZ2UdtMAHi0M1ZK1CjtUgA4v0B7jk4Wg:1pVgkR:s_RKobut1xsTyjd8KyLO8gd7IpusOVFgKMhWRGH5GMI', '2023-03-10 22:41:03.717173'),
+('gq5b4wqw6rfshdofxtk7t7vey352ypgf', '.eJxVjDsOwjAQBe_iGlmJv1lKes5g7dobHEC2FCcV4u5gKQW0b2beSwTctxz2xmtYkjiLUZx-N8L44NJBumO5VRlr2daFZFfkQZu81sTPy-H-HWRs-VvDZDR5g6TU7JQlMxBo0i4mzzDF5AgZ2UdtMAHi0M1ZK1CjtUgA4v0B7jk4Wg:1pVZva:hG_tRpPOmosyBOs6Spt8x9DpxbIjFFzz-2LGLIIMoxo', '2023-03-10 15:24:06.433065'),
 ('qx3raxqlex64a988geoxwqqs54rib2r2', '.eJxVjMsOwiAQRf-FtSFlyqO4dO83EGYGpGogKe3K-O_apAvd3nPOfYkQt7WEraclzCzOQonT74aRHqnugO-x3pqkVtdlRrkr8qBdXhun5-Vw_w5K7OVbA4Mzii0qduNoETHnASdGbcGgBWANyRN545PCQSvno3XggPIUOZN4fwDmDTgv:1pST8Y:0JKoHtk7E8Z9kKxGE1MPRJRWZ8aOhRAr8MqvRyLSQDM', '2023-03-02 01:32:38.593626'),
-('ydh6p8ki6flignbrrhttt6spd5bcandl', '.eJxVjMsOwiAQRf-FtSHDQ0CX7vsNzTAMUjWQlHZl_HdD0oVu7znnvsWM-1bmvfM6L0lchRan3y0iPbkOkB5Y701Sq9u6RDkUedAup5b4dTvcv4OCvYxaYw6gvGJnDbA-o4raMnlnLtlFZoMALqhkg7cQyWVLIWvOkBKqQOLzBdyBOCM:1pTtpt:kCi-NdAn6MNKOZdbt2L0s6O3vp6QW8Wik7jfqpnl_WQ', '2023-03-06 00:15:17.836259');
+('ydh6p8ki6flignbrrhttt6spd5bcandl', '.eJxVjMsOwiAQRf-FtSHDQ0CX7vsNzTAMUjWQlHZl_HdD0oVu7znnvsWM-1bmvfM6L0lchRan3y0iPbkOkB5Y701Sq9u6RDkUedAup5b4dTvcv4OCvYxaYw6gvGJnDbA-o4raMnlnLtlFZoMALqhkg7cQyWVLIWvOkBKqQOLzBdyBOCM:1pW5Zg:cqc9hAcOtxG33Btq4GX4XnewdLV5MdaeE3IErMK-2V0', '2023-03-12 01:11:36.872837');
 
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `app1_credits`
+--
+ALTER TABLE `app1_credits`
+  ADD CONSTRAINT `app1_credits_client_id_9fcea049_fk_app1_clients_id` FOREIGN KEY (`client_id`) REFERENCES `app1_clients` (`id`);
 
 --
 -- Contraintes pour la table `app1_product`

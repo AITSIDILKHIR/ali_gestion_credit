@@ -273,4 +273,3 @@ def delete_credits(request, pid):
     credits.delete()
     messages.success(request, "Credits supprimer")
     return redirect(view_credit)
-    
