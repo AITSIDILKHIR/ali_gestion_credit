@@ -14,7 +14,7 @@
                             <select name="client" class="form-control" required>
                                 <option value="">choisir un client</option>
                                 {% for i in client %}
-                                <option value="{{i.id}}">{{i.nom}}</option>
+                                <option value="{{i.id}}">{{i.nom}} {{i.prenom}}({{i.cin}})</option>
                                 {% endfor %}
                             </select>
                         </div>

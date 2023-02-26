@@ -32,9 +32,9 @@ def adminLogin(request):
                 msg = "User login successfully"
                 return redirect('admindashboard')
             else:
-                msg = "Invalid Credentials"
+                msg = "Invalid Credentials 1"
         except:
-            msg = "Invalid Credentials"
+            msg = "mot de pass incorrecte ou utilisateur inexestant"
     dic = {'msg': msg}
     return render(request, 'admin_login.html', dic)
 def adminHome(request):
@@ -71,16 +71,26 @@ def delete_category(request, pid):
     
 def add_product(request):
     category = Category.objects.all()
+    mesg=None
     if request.method == "POST":
         name = request.POST['name']
         price = request.POST['price']
         cat = request.POST['category']
         discount = request.POST['discount']
         desc = request.POST['desc']
-        image = request.FILES['image']
-        catobj = Category.objects.get(id=cat)
-        Product.objects.create(name=name, price=price, discount=discount, category=catobj, description=desc, image=image)
-        messages.success(request, "le produit est bien ajouté ")
+        try:
+            image = request.FILES['image']
+        except:
+            mesg='ajouter une image de produit'
+        
+        try:
+            
+            catobj = Category.objects.get(id=cat)
+            Product.objects.create(name=name, price=price, discount=discount, category=catobj, description=desc, image=image)
+            messages.success(request, "le produit est bien ajouté ")
+        except:
+            mesg='les champs ne sont pas valides'
+    dic={'mesg':mesg}
     return render(request, 'add_product.html', locals())
 def view_product(request):
     product = Product.objects.all()
@@ -122,7 +132,7 @@ def registration(request):
 
 from .models import Clients
 def add_client(request):
-    
+    mesg=None
     if request.method == "POST":
         nom = request.POST['nom']
         prenom = request.POST['prenom']
@@ -130,11 +140,15 @@ def add_client(request):
         contact = request.POST['contact']
         cin= request.POST['cin']
         
-       
-        image = request.FILES['image']
+        try:
+             image = request.FILES['image']
         
-        Clients.objects.create(nom=nom, prenom=prenom, adresse=adresse, contact=contact, cin=cin, image=image,credit=0)
-        messages.success(request, "Client ajouter ")
+             Clients.objects.create(nom=nom, prenom=prenom, adresse=adresse, contact=contact, cin=cin, image=image,credit=0)
+             messages.success(request, "Client ajouter ")
+        except:
+            mesg='touts les champs doivent etre remplis'
+            dic={'mesg':mesg}
+
     return render(request, 'add_client.html', locals())
 
 def view_client(request):
@@ -154,11 +168,13 @@ def edit_client(request, pid):
             image = request.FILES['image']
             client.image = image
             client.save()
+            Clients.objects.filter(id=pid).update(nom=nom, prenom=prenom, adresse=adresse, contact=contact, cin=cin)
+            messages.success(request, "client modofier")
         except:
-            pass
+            mesg='les champs ne sont pas valides'
+            dic={'mesg':mesg}
         
-        Clients.objects.filter(id=pid).update(nom=nom, prenom=prenom, adresse=adresse, contact=contact, cin=cin)
-        messages.success(request, "client modofier")
+        
     return render(request, 'edit-client.html', locals())
 
 def delete_client(request, pid):
@@ -179,17 +195,33 @@ def delete_category(request, pid):
     return redirect('view_category')
 
 from .models import Product
+
+
 def add_credit(request):
+    mesg=None
     client = Clients.objects.all()
     if request.method == "POST":
         
         client = request.POST['client']
         montant = request.POST['montant']
         durée=0
-        clientt = Clients.objects.get(id=client)
-        Clients.objects.filter(id=client).update(credit=montant)
-        Credits.objects.create(client=clientt,montant=montant, durée=durée)
-        messages.success(request, "Credit Ajouté")
+        try:
+            clientt = Clients.objects.get(id=client)
+            Clients.objects.filter(id=client).update(credit=montant)
+            if Credits.objects.filter(client_id=client).exists():
+                cre=Credits.objects.get(client_id=client)
+
+            
+                montant=float(montant)+float(cre.montant)
+                Credits.objects.filter(client_id=client).update( montant=montant,etat_credit="credit non reglé ")
+            
+            
+            else:
+                Credits.objects.create(client=clientt,montant=montant, durée=durée)
+                messages.success(request, "Credit Ajouté")
+        except:
+            mesg='les champs ne sont pas valides'
+    dic={'mesg':mesg}
     return render(request, 'add_credit.html', locals())
 
 def view_credit(request):
@@ -200,35 +232,40 @@ def duree(date1,date2):
         return delta.days
 
 def edit_credit(request, pid):
+    mesg=None
     credits = Credits.objects.get(id=pid)
     clients = Clients.objects.all()
     if request.method == "POST":
         payer = request.POST['payer']
        # montant = request.POST['montant']
         nom = credits.client.nom
-        if  payer=="montant à régler":
-            payer=0
+        try:
+            if  payer=="montant à régler":
+                payer=0
         
-        montant=float(credits.montant)-float(payer)
-        durée=duree(credits.updated,credits.created)
-        if montant ==float(0):
-
-            Credits.objects.filter(id=pid).update( etat_credit=" credit reglé")
-            Clients.objects.filter(nom=nom).update(credit=montant)
+            montant=float(credits.montant)-float(payer)
+            durée=duree(credits.updated,credits.created)
+            if montant ==float(0):
+                Credits.objects.filter(id=pid).update( etat_credit=" credit reglé")
+                Clients.objects.filter(nom=nom).update(credit=montant)
            
-            Credits.objects.filter(id=pid).update( montant=montant, durée=durée)
-            return redirect(view_credit)
-        elif montant > float(0) :
-             Clients.objects.filter(nom=nom).update(credit=montant)
-             Credits.objects.filter(id=pid).update( montant=montant, durée=durée)
-             messages.success(request, "Credit mets ajour")
-             return redirect(view_credit)
+                Credits.objects.filter(id=pid).update( montant=montant, durée=durée)
+                return redirect(view_credit)
+            elif montant > float(0) :
+                Clients.objects.filter(nom=nom).update(credit=montant)
+                
+                Credits.objects.filter(id=pid).update( montant=montant,etat_credit="credit non reglé ",durée=durée)
+                messages.success(request, "Credit mets ajour")
+                return redirect(view_credit)
 
 
         #clt = request.POST['category']
         
         
-   
+        except:
+            mesg="les champs ne sont pas valides"
+    dic={'mesg':mesg}
+
        
     return render(request, 'edit_credit.html', locals())
 def delete_credits(request, pid):
